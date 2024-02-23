@@ -1,4 +1,3 @@
-//rfnces
 import {
   StyleSheet,
   Text,
@@ -7,25 +6,33 @@ import {
   ImageBackground,
   TouchableOpacity,
   Alert,
+  Image, // Import Image component
 } from "react-native";
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context';
-import tw from "react-native-tailwindcss";
+import React, { useState } from "react";
 
+// Preload images
+const locationImage = require("/home/gihan/Documents/workingPlace/GDSE/4sem/react native/whether app/weather-app/assets/location.png");
+const temperatureImage = require("/home/gihan/Documents/workingPlace/GDSE/4sem/react native/whether app/weather-app/assets/temperature.png");
+const cloudImage = require("/home/gihan/Documents/workingPlace/GDSE/4sem/react native/whether app/weather-app/assets/cloud.png");
 
 const HomeComponent = () => {
+  const [inputValue, setInputValue] = useState("");
+  const [weatherData, setWeatherData] = useState(null);
+
   const clickEvent = () => {
-    Alert.alert(
-      "Alert Title",
-      "Button pressed!",
-      [
-        {
-          text: "OK",
-          onPress: () => console.log("OK Pressed"),
-        },
-      ],
-      { cancelable: false }
-    );
+    fetch(`http://192.168.8.106:3000/weather?location=${inputValue}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setWeatherData(data);
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+      });
   };
 
   return (
@@ -42,44 +49,42 @@ const HomeComponent = () => {
         </View>
         <Text style={styles.title}>weather app</Text>
         <View>
-          <TextInput style={styles.input} placeholder="Enter City"></TextInput>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter City"
+            value={inputValue}
+            onChangeText={(text) => setInputValue(text)}
+          ></TextInput>
         </View>
         <TouchableOpacity style={styles.button} onPress={clickEvent}>
           <Text style={{ color: "#fdf0d5", fontSize: 20 }}>search</Text>
         </TouchableOpacity>
         <View style={styles.view}>
           <View style={styles.outputs}>
-            <View style={styles.gridContainer}>
-              <View style={styles.gridItem}>
-                <ImageBackground
-                  source={require("/home/gihan/Documents/workingPlace/GDSE/4sem/react native/whether app/weather-app/assets/location.png")}
-                  style={styles.locationImage}
-                ></ImageBackground>
-                <Text style={styles.subTitle}>location</Text>
+            {weatherData && (
+              <View style={styles.gridContainer}>
+                <View style={styles.gridItem}>
+                  <Image source={locationImage} style={styles.locationImage} />
+                  <Text style={styles.subTitle}>{weatherData.location}</Text>
+                </View>
+                <View style={styles.gridItem}>
+                  <Image source={temperatureImage} style={styles.temperature} />
+                  <Text style={styles.subTitle}>{weatherData.temperature}</Text>
+                </View>
+                <View style={styles.gridItem}>
+                  <Image source={cloudImage} style={styles.description} />
+                  <Text style={styles.subTitle}>{weatherData.description}</Text>
+                </View>
               </View>
-              <View style={styles.gridItem}>
-                <ImageBackground
-                  source={require("/home/gihan/Documents/workingPlace/GDSE/4sem/react native/whether app/weather-app/assets/temperature.png")}
-                  style={styles.temperature}
-                ></ImageBackground>
-                <Text style={styles.subTitle}>temperature</Text>
-              </View>
-              <View style={styles.gridItem}>
-                <ImageBackground
-                  source={require("/home/gihan/Documents/workingPlace/GDSE/4sem/react native/whether app/weather-app/assets/cloud.png")}
-                  style={styles.description}
-                ></ImageBackground>
-                <Text style={styles.subTitle}>description</Text>
-              </View>
-            </View>
+            )}
           </View>
         </View>
       </ImageBackground>
     </View>
   );
-}
+};
 
-export default HomeComponent
+export default HomeComponent;
 
 const styles = StyleSheet.create({
   container: {
