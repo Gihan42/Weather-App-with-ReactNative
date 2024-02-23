@@ -32,6 +32,17 @@ const HomeComponent = () => {
       })
       .catch((error) => {
         console.error("There was a problem with the fetch operation:", error);
+            Alert.alert(
+              "check again city name",
+              "Button pressed!",
+              [
+                {
+                  text: "OK",
+                  onPress: () => console.log("OK Pressed"),
+                },
+              ],
+              { cancelable: false }
+            );
       });
   };
 
