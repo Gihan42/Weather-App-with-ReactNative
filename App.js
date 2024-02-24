@@ -30,10 +30,6 @@ export default function App() {
             style={styles.logo}
           ></ImageBackground>
           <Text style={styles.title}>weather app</Text>
-          <StatusBar hidden />
-          <View style={styles.progressBar}>
-            <View style={[styles.progress, { width: `${progress * 100}%` }]} />
-          </View>
           <Text style={styles.text}>Loading...</Text>
           <ActivityIndicator size="large" color="#9e2a2b" />
         </View>
@@ -61,18 +57,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#fff",
   },
-  progressBar: {
-    width: "70%",
-    height: 8,
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    overflow: "hidden",
-    marginBottom: 20,
-  },
-  progress: {
-    height: "100%",
-    backgroundColor: "#023047",
-  },
   text: {
     fontSize: 20,
     marginBottom: 20,
@@ -82,6 +66,7 @@ const styles = StyleSheet.create({
     height: 60,
     width: 60,
     marginBottom: 10,
+    left: 5,
   },
   title: {
     fontSize: 40,
@@ -89,5 +74,6 @@ const styles = StyleSheet.create({
     marginBottom: 50,
     marginTop: 0,
     color: "#000022",
+    right: 5,
   },
 });
