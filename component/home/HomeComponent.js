@@ -6,10 +6,10 @@ import {
   ImageBackground,
   TouchableOpacity,
   Alert,
-  Image, // Import Image component
+  Image, 
 } from "react-native";
 import React, { useState } from "react";
-
+import "react-native-gesture-handler";
 // Preload images
 const locationImage = require("/home/gihan/Documents/workingPlace/GDSE/4sem/react native/whether app/weather-app/assets/location.png");
 const temperatureImage = require("/home/gihan/Documents/workingPlace/GDSE/4sem/react native/whether app/weather-app/assets/temperature.png");
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     width: 390,
     borderColor: "#03045e",
     borderWidth: 1,
-    height: 300,
+    height: 280,
     borderRadius: 30,
     backgroundColor: "rgba(255,255,255,0.5)",
     blurRadius: 10,
